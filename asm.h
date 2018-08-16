@@ -44,6 +44,8 @@ typedef struct			s_champ
 	struct s_champ		*next;
 }						t_champ;
 
+t_command				g_operations[17];
+
 char	*ft_strstr_d(char *str, char *to_find);
 void	ft_putstr_d(char const *s);
 char	*ft_strjoin_n(char *line, char *line2, int flag);

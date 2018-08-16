@@ -8,12 +8,12 @@ t
 .comment "I'M ALIIIIVE
 f
 f
-wadsadadasdasdaddsadasdasdadsdsadasdasdasdasdadasddadsadadsadasdasdasdsadasdasdasdasdasdasdasasdasdadad
-esdadsdasdsadassadadsadasdasdasdasdasddsadasdasdasdasdsadasddadsaadadasdadadasdasdasdasdadasdasdasdasd
+wadsadadasdasdaddsadasdasdad
+esdadsdasdsadassadadsadasdas
 f
 f"
 
-l2:		sti r1, %:live, %1
+l2:     sti r1, %:live, %1
 		and r1, %0, r1
 
 live:	live %1

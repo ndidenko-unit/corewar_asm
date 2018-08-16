@@ -1,6 +1,45 @@
 #include "asm.h"
 
+int ft_emptyline(char *line)
+{
+    while (*line)
+    {
+        if (*line == ' ' || *line == '\t')
+            ;
+        else if (*line == '#')
+            return(1);
+        else
+            return(0);
+        line++;
+    }
+    return(1);
+}
 
+int ft_detect_command(char *line)
+{
+    char *ptr;
+    int i;
+    int len;
+    char *commandsp;
+
+    i = 0;
+    ptr = 0;
+    
+    while (g_operations[i].name)
+    {
+        commandsp = ft_strjoin(g_operations[i].name, " ");
+        ptr = ft_strstr(line, commandsp);
+        if (ptr != 0)
+        {
+            len = ft_strlen(commandsp);
+            if (ft_strncmp(ptr, commandsp, len) == 0)
+                return(i);
+        }
+        i++;
+        free(commandsp);
+    }
+    return(-1);
+}
 
 int main (int argc, char **argv)
 {
@@ -17,16 +56,16 @@ int main (int argc, char **argv)
         exit(ft_printf("ERROR! fd is -1\n"));
     while (get_next_line(main_struct->fd, &main_struct->line))
     {
-        if (ft_strlen(main_struct->line) < 1)
+        if (ft_strlen(main_struct->line) < 1 || ft_emptyline(main_struct->line))
             continue;
         else if (ft_strstr_d(main_struct->line, ".name") && main_struct->name == 0)
             ft_name(&main_struct);
         else if (ft_strstr_d(main_struct->line, ".comment") && main_struct->comment == 0)
             ft_comment(&main_struct);
+        else if (ft_detect_command(main_struct->line) >= 0)
+            ft_cmd_line(&main_struct); // доделать
         free(main_struct->line);
     }
-    printf("%s", (main_struct)->name);
-    printf("%s", (main_struct)->comment);
     // system ("leaks -quiet asm");
     return (0);
 }
