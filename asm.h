@@ -52,5 +52,11 @@ char	*ft_strjoin_n(char *line, char *line2, int flag);
 char	*ft_strdup_d(const char *string, char d);
 void ft_name(t_champ	**main_struct);
 void ft_comment(t_champ	**main_struct);
+int ft_detect_label(char *line);
+char *ft_detect_command(char *line);
+int ft_detect_command_i(char *line);
+int ft_emptyline(char *line);
+void ft_cmd(t_champ	**main_struct);
+char *ft_parse_arg(char *line);
 
 #endif
