@@ -72,19 +72,19 @@ void ft_cmd(t_champ	**main_struct)
     {
         cmd_s = ft_parse_cmd((*main_struct)->line);
         cmd_s->labels = label_s;
-        arg_s = ft_parse_arg((*main_struct)->line);
+        arg_s = ft_parse_arg((*main_struct)->line, &cmd_s);
     }
 
-    while (label_s)
-    {
-        printf("---%s\n", label_s->name);
-        label_s = label_s->next;
-    }
+    // while (label_s)
+    // {
+    //     printf("---%s\n", label_s->name);
+    //     label_s = label_s->next;
+    // }
 
-    while (cmd_s)
-    {
-        printf("---%s\n", cmd_s->name);
-        cmd_s = cmd_s->next;
-    }
+    // while (cmd_s)
+    // {
+    //     printf("---%s\n", cmd_s->name);
+    //     cmd_s = cmd_s->next;
+    // }
     
 }
