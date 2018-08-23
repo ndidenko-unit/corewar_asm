@@ -60,5 +60,9 @@ void ft_cmd(t_champ	**main_struct);
 char *ft_parse_arg(char *line, t_command **cmd_s);
 void	arg_in_end(t_arg **a, t_arg *b);
 void		ft_parse_ind(char *line, int command, int i, t_command **cmd_s);
+void		ft_parse_dir(char *line, int command, int i, t_command **cmd_s);
+unsigned int	atoi_arg(const char *str);
+void ft_set_value(t_champ	**main_struct);
+
 
 #endif

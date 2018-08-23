@@ -32,7 +32,7 @@ int ft_detect_command_i(char *line)
         if (ptr != 0)
         {
             len = ft_strlen(commandsp);
-            if (ft_strncmp(ptr, commandsp, len) == 0)
+            if (ft_strncmp(ptr, commandsp, len) == 0 && *(ptr - 1) != ':')
                 return(i);
         }
         i++;
@@ -58,7 +58,7 @@ char *ft_detect_command(char *line)
         if (ptr != 0)
         {
             len = ft_strlen(commandsp);
-            if (ft_strncmp(ptr, commandsp, len) == 0)
+            if (ft_strncmp(ptr, commandsp, len) == 0 && *(ptr - 1) != ':')
                 return(ptr);
         }
         i++;
@@ -99,6 +99,7 @@ int main (int argc, char **argv)
     main_struct->name = 0;
     main_struct->comment = 0;
     main_struct->line = 0;
+    main_struct->cmds = 0;
     main_struct->fd = open(argv[1], O_RDONLY);
     if (main_struct->fd == -1)
         exit(ft_printf("ERROR! fd is -1\n"));
@@ -112,10 +113,9 @@ int main (int argc, char **argv)
             ft_comment(&main_struct);
         else if (ft_detect_command(main_struct->line) != 0 
             || ft_detect_label(main_struct->line) != 0)
-        {
             ft_cmd(&main_struct);
-            break;
-        }
+        else
+            exit(ft_printf("ERROR! bad line\n"));
 
         // else if (ft_detect_label(main_struct->line))
             // printf("detect label\n");
@@ -123,6 +123,39 @@ int main (int argc, char **argv)
 
         free(main_struct->line);
     }
+    ft_set_value(&main_struct);
+    while(main_struct->cmds)
+    {
+        printf("cmds->name = %s\n", main_struct->cmds->name);
+        printf("cmds->codage = %d\n", main_struct->cmds->codage);
+        printf("cmds->count_args = %d\n", main_struct->cmds->count_args);
+        printf("cmds->label_size = %d\n", main_struct->cmds->label_size);
+        printf("cmds->opcode = %d\n", main_struct->cmds->opcode);
+        printf("cmds->number_byte = %d\n", main_struct->cmds->number_byte);
+        if (main_struct->cmds->labels)
+        {
+            while (main_struct->cmds->labels)
+            {
+                printf("cmds->labels = %s\n", main_struct->cmds->labels->name);
+                main_struct->cmds->labels = main_struct->cmds->labels->next;
+            }
+        }
+        if (main_struct->cmds->inst)
+        {
+            while (main_struct->cmds->inst)
+            {
+                printf("args namelabel = %s, binary =%d, size =%d value =%d\n", main_struct->cmds->inst->name_label,
+                         main_struct->cmds->inst->binary, main_struct->cmds->inst->size, main_struct->cmds->inst->value);
+                main_struct->cmds->inst = main_struct->cmds->inst->next;
+            }
+        }
+        main_struct->cmds = main_struct->cmds->next;
+        printf("\n---------------\n");
+    }
+    // printf("cmds->name = %s,\n", main_struct->cmds->name);
+    // printf("cmds->name = %s\n", main_struct->cmds->next->name);
+    // printf("cmds->name = %s\n", main_struct->cmds->next->next->name);
+    // printf("cmds->name = %s\n", main_struct->cmds->next->next->next->name);
     // system ("leaks -quiet asm");
     return (0);
 }

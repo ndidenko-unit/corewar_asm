@@ -1,0 +1,115 @@
+#include "asm.h"
+
+void ft_number_byte(t_command	*start)
+{
+	int			count_bytes;
+    t_arg		*arg;
+
+	count_bytes = 0;
+	while (start)
+	{
+        start->number_byte = count_bytes;
+        arg = start->inst;
+		while (arg)
+		{
+			count_bytes += arg->size;
+			arg = arg->next;
+		}
+		count_bytes += start->codage + 1;
+		start = start->next;
+	}
+}
+
+int ft_set_codage(t_command *start)
+{
+	t_arg	*arg;
+	int		codage;
+
+	arg = (start)->inst;
+	codage = 0;
+	while (arg)
+	{
+		codage += arg->binary;
+		arg = arg->next;
+		codage <<= 2;
+	}
+	return (codage);
+}
+
+static int	ft_findlabel(t_champ *a, char *name, int nbr)
+{
+	t_command	*start;
+	t_label		*lbl;
+	int			value;
+
+	start = a->cmds;
+	value = -1;
+	while (start && value == -1)
+	{
+		lbl = start->labels;
+		while (lbl && value == -1)
+		{
+			if (ft_strcmp(lbl->name, name) == 0)
+				value = start->number_byte;
+			lbl = lbl->next;
+		}
+		start = start->next;
+	}
+    if (value == -1)
+        exit(ft_printf("ERROR! label not exist\n"));
+	if (nbr > value)
+		value = -1 * (nbr - value);
+	else
+		value -= nbr;
+	return (value);
+}
+
+void ft_set_value2(t_champ	*main_struct)
+{
+    t_command	*start;
+	t_arg		*arg;
+
+    start = (main_struct)->cmds;
+	while (start)
+	{
+		arg = start->inst;
+		while (arg)
+		{
+			if (arg->name_label && (int)arg->value == -1)
+			arg->value =
+					ft_findlabel(main_struct, arg->name_label, start->number_byte);
+			arg = arg->next;
+		}
+		start = start->next;
+	}
+}
+
+void ft_set_value(t_champ	**main_struct) // разберись с label_size и count_args
+{
+	t_command	*start;
+	t_arg		*arg;
+    
+    ft_number_byte((*main_struct)->cmds);
+	start = (*main_struct)->cmds;
+	while (start)
+	{
+		arg = start->inst;
+		if (start->codage)
+			start->codage = ft_set_codage(start);
+		start = start->next;
+	}
+    start = (*main_struct)->cmds;
+    // while (start)
+	// {
+    //     arg = start->inst;
+    //     while (arg)
+    //     {
+    //         if ((int)arg->value == -1 && arg->name_label != 0)
+    //         arg->value =
+    //                 find_label(*main_struct, arg->name_label, start->number_byte);
+    //         arg = arg->next;
+    //     }
+    //     start = start->next;
+	// }
+    ft_set_value2(*main_struct);
+}

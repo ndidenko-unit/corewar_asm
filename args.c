@@ -94,6 +94,34 @@ void ft_parse_reg(char *line, int command, int index, t_command **cmd_s)
 	arg_in_end(&(*cmd_s)->inst, arg);
 }
 
+void ft_count_args_commas(t_command **cmd_s, int command, char *line)
+{
+	t_arg	*args;
+	int		args_count;
+	int commas;
+
+	args = (*cmd_s)->inst;
+	args_count = 0;
+	commas = 0;
+	while (args)
+	{
+		args_count++;
+		args = args->next;
+	}
+	if (g_operations[command].count_args > args_count)
+		exit(ft_printf("ERROR! few arguments\n"));
+	if (g_operations[command].count_args < args_count)
+		exit(ft_printf("ERROR! many arguments\n"));
+	if (args_count == 0)
+		exit(ft_printf("ERROR! 0 arguments\n"));
+	while (*line++)
+		if (*line == ',')
+			commas++;
+	printf("!!!!!!!!!!commas=%d, args=%d\n", commas, args_count);
+	if (commas != args_count - 1)
+		exit(ft_printf("ERROR! check commas!\n"));
+}
+
 char *ft_parse_arg(char *line, t_command **cmd_s)
 {
     char *lined;
@@ -110,14 +138,17 @@ char *ft_parse_arg(char *line, t_command **cmd_s)
     {
         args[i] = ft_strtrim(args[i]);
         valid = ft_valid_arg(args[i], ft_detect_command_i(line), i);
-        printf("valid =%d\n", valid);
+        // printf("valid =%d\n", valid);
         if (valid == T_REG)
 			ft_parse_reg(args[i], ft_detect_command_i(line), i, cmd_s);
 		else if (valid == T_IND)
 			ft_parse_ind(args[i], ft_detect_command_i(line), i, cmd_s);
+		else
+			ft_parse_dir(args[i], ft_detect_command_i(line), i, cmd_s);
     }
-    printf("(*cmd_s)->inst->value =%d\n", (*cmd_s)->inst->value);
-	printf("(*cmd_s)->inst->name_label =%s\n", (*cmd_s)->inst->name_label);
+	ft_count_args_commas(cmd_s, ft_detect_command_i(line), lined);
+    // printf("(*cmd_s)->inst->value =%d\n", (*cmd_s)->inst->value);
+	// printf("(*cmd_s)->inst->name_label =%s\n", (*cmd_s)->inst->name_label);
 
     return(lined); // вернет единицу
 }

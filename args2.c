@@ -1,9 +1,9 @@
 #include "asm.h"
 
-unsigned int	atoi_for_arg(const char *str)
+unsigned int	atoi_arg(const char *str)
 {
-	int				n;
 	unsigned	int	res;
+	int				n;
 
 	res = 0;
 	n = 1;
@@ -14,17 +14,17 @@ unsigned int	atoi_for_arg(const char *str)
         n = n - 2;
     if (*str == '+' || *str == '-')
         str++;
-	if (*str < '0' && *str > '9')
+	if (*str < 48 && *str > 57)
 		return (0);
-	while (*str != '\0' && ft_isdigit(*str))
+	while (*str && ft_isdigit(*str))
 	{
-		res = res * 10 + (*str - '0');
+		res = res * 10 + (*str - 48);
 		str++;
 	}
 	return (res * n);
 }
 
-static void	arg_label(char *line, int command, int i, t_arg **arg)
+static void	ft_arg_label(char *line, int command, int i, t_arg **arg)
 {
     char	*start;
 
@@ -52,7 +52,7 @@ void		ft_parse_ind(char *line, int command, int i, t_command **cmd_s)
 	j = 0;
 	a = (t_arg*)malloc(sizeof(t_arg));
 	if (line[0] == LABEL_CHAR)
-		arg_label(line, command, i, &a);
+		ft_arg_label(line, command, i, &a);
 	else
 	{
 		if (line[0] == '-') 
@@ -63,7 +63,7 @@ void		ft_parse_ind(char *line, int command, int i, t_command **cmd_s)
 			&& line[j])
             exit(ft_printf("ERROR in arg T_IND\n"));
 		a->name_label = 0;
-        a->value = atoi_for_arg(line);
+        a->value = atoi_arg(line);
 	}
 	a->size = IND_SIZE;
 	a->binary = 3;
