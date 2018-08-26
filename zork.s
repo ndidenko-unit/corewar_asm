@@ -1,17 +1,5 @@
-.name "hello
-q
-w
-e
-r
-t
-"	
-.comment "I'M ALIIIIVE
-f
-f
-wadsadadasdasdaddsadasdasdad
-esdadsdasdsadassadadsadasdas
-f
-f"
+.name "hello"	
+.comment "I'M ALIIIIVE"
 
 l0:
 l1:

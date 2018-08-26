@@ -12,10 +12,10 @@ void ft_number_byte(t_command	*start)
         arg = start->inst;
 		while (arg)
 		{
-			count_bytes += arg->size;
+			count_bytes = count_bytes + arg->size;
 			arg = arg->next;
 		}
-		count_bytes += start->codage + 1;
+		count_bytes = count_bytes + (start->codage + 1);
 		start = start->next;
 	}
 }
@@ -29,7 +29,7 @@ int ft_set_codage(t_command *start)
 	codage = 0;
 	while (arg)
 	{
-		codage += arg->binary;
+		codage = codage + arg->binary;
 		arg = arg->next;
 		codage <<= 2;
 	}
@@ -60,7 +60,7 @@ static int	ft_findlabel(t_champ *a, char *name, int nbr)
 	if (nbr > value)
 		value = -1 * (nbr - value);
 	else
-		value -= nbr;
+		value = value - nbr;
 	return (value);
 }
 
@@ -84,7 +84,7 @@ void ft_set_value2(t_champ	*main_struct)
 	}
 }
 
-void ft_set_value(t_champ	**main_struct) // разберись с label_size и count_args
+void ft_set_value(t_champ	**main_struct)
 {
 	t_command	*start;
 	t_arg		*arg;

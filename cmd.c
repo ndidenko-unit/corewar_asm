@@ -59,6 +59,8 @@ t_command *ft_parse_cmd(char *line)
         cmd_tmp->codage = g_operations[command].codage;
         cmd_tmp->opcode = g_operations[command].opcode;
     }
+    else
+        cmd_tmp->name = ft_strdup("-1");
     return(cmd_tmp);
 }
 
