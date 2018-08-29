@@ -35,8 +35,10 @@ static int	ft_valid_arg(char *line, int command, int index)
 	int		i;
 
 	arg = -1;
+	if (ft_strchr(line, ' ') != 0)
+		exit(ft_printf("ERROR! no valid arg in line: |%s|\n", line));
 	available_args(command, index, aval_args);
-    if (line[0] == 'r')
+    if (line[0] == 'r' && ft_isdigit(line[1]))
         arg = T_REG;
     if (line[0] == DIRECT_CHAR)
         arg = T_DIR;
@@ -44,13 +46,13 @@ static int	ft_valid_arg(char *line, int command, int index)
 		|| line[0] == LABEL_CHAR)
         arg = T_IND;
     if (arg == -1)
-	    exit(ft_printf("ERROR! no valid arg\n"));
+	    exit(ft_printf("ERROR! no valid arg in line: |%s|\n", line));
 	i = -1;
 	while (++i < 3 && aval_args[i])
 		if (arg == aval_args[i] || aval_args[0] == -1)
 			break ;
     if (!aval_args[i])
-	    exit(ft_printf("ERROR! command can't contain this arg\n"));
+	    exit(ft_printf("ERROR! command can't contain this arg: |%s|\n", line));
 	return (arg);
 }
 
@@ -109,7 +111,7 @@ void ft_count_args_commas(t_command **cmd_s, int command, char *line)
 		args = args->next;
 	}
 	if (g_operations[command].count_args > args_count)
-		exit(ft_printf("ERROR! few arguments\n"));
+		exit(ft_printf("ERROR! few arguments in line: |%s|\n", line));
 	if (g_operations[command].count_args < args_count)
 		exit(ft_printf("ERROR! many arguments\n"));
 	if (args_count == 0)
@@ -117,7 +119,7 @@ void ft_count_args_commas(t_command **cmd_s, int command, char *line)
 	while (*line++)
 		if (*line == ',')
 			commas++;
-	printf("!!!!!!!!!!commas=%d, args=%d\n", commas, args_count);
+	// printf("!!!!!!!!!!commas=%d, args=%d\n", commas, args_count);
 	if (commas != args_count - 1)
 		exit(ft_printf("ERROR! check commas!\n"));
 }
@@ -131,8 +133,10 @@ char *ft_parse_arg(char *line, t_command **cmd_s)
     int valid;
 
     i = -1;
-    cmdlen = ft_strlen(g_operations[ft_detect_command_i(line)].name);
+    cmdlen = 1 + ft_strlen(g_operations[ft_detect_command_i(line)].name); // 1 для пробела или таба
     lined = ft_strdup_d(line, '#');
+	if (ft_strchr(lined, ';'))
+		lined = ft_strdup_d(line, ';');
     args = ft_strsplit(ft_detect_command(lined) + cmdlen, ',');
     while(args[++i])
     {

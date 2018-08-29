@@ -38,7 +38,7 @@ static void	ft_arg_label(char *line, int command, int i, t_arg **arg)
     while (*start)
 	{
 		if (!ft_strchr(LABEL_CHARS, *start))
-			exit(ft_printf("'%c' is forbidden in label-name\n", *start));
+			exit(ft_printf("ERROR! '%c' is forbidden in label-name\n", *start));
 		start++;
 	}
 	(*arg)->value = -1;

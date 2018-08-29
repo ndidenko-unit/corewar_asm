@@ -17,11 +17,17 @@ static void ft_valid_1line(char *line)
         exit(ft_printf("ERROR in .name\n"));
 }
 
-static void ft_valid_last_line(char *line)
+static void ft_valid_last_line(char *line, int type)
 {
     while (*line != '"')
         line++;
     line++;
+    if (type == 1)
+    {
+        while (*line != '"')
+            line++;
+        line++;
+    }
     while(*line)
     {
         if (*line == ' ' || *line == '\t')
@@ -44,9 +50,10 @@ static void ft_name1(t_champ	**main_struct, int f)
     while (!ft_strstr_d((*main_struct)->line, "\""))
     {
         tmp = ft_strjoin_n(tmp, ft_strdup_d((*main_struct)->line, '#'), 1);
-        get_next_line((*main_struct)->fd, &(*main_struct)->line);
+        if (!get_next_line((*main_struct)->fd, &(*main_struct)->line))
+            exit(ft_printf("ERROR in .name\n"));
     }
-    ft_valid_last_line((*main_struct)->line);
+    ft_valid_last_line((*main_struct)->line, 0);
     tmp = ft_strjoin_n(tmp, ft_strdup_d((*main_struct)->line, '"'), 1);
     (*main_struct)->name = tmp;
     if (ft_strlen((*main_struct)->name) > 128)
@@ -76,7 +83,10 @@ void ft_name(t_champ	**main_struct)
         i++;
     }
     if (count[0] == 2)
+    {
         (*main_struct)->name = ft_strsub((*main_struct)->line, count[1] + 1, count[2] - count[1] - 1);
+        ft_valid_last_line((*main_struct)->line, 1);        
+    }
     else if (count[0] == 1)
         ft_name1(main_struct, count[1] + 1);
     else

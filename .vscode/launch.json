@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceRoot}/asm",
-            "args": ["zork.s"],
+            "args": ["champs/examples/zork.s"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

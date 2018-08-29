@@ -6,7 +6,7 @@ int ft_emptyline(char *line)
     {
         if (*line == ' ' || *line == '\t')
             ;
-        else if (*line == '#')
+        else if (*line == '#' || *line == ';')
             return(1);
         else
             return(0);
@@ -22,20 +22,22 @@ int ft_detect_command_i(char *line)
     int len;
     char *commandsp;
 
-    i = 0;
+    i = 15;
     ptr = 0;
     
-    while (g_operations[i].name)
+    while (i >= 0)
     {
         commandsp = ft_strjoin(g_operations[i].name, " ");
         ptr = ft_strstr(line, commandsp);
+        ptr == 0 ? commandsp = ft_strjoin(g_operations[i].name, "\t") : 0;
+        ptr == 0 ? ptr = ft_strstr(line, commandsp) : 0 ;
         if (ptr != 0)
         {
             len = ft_strlen(commandsp);
             if (ft_strncmp(ptr, commandsp, len) == 0 && *(ptr - 1) != ':')
                 return(i);
         }
-        i++;
+        i--;
         free(commandsp);
     }
     return(-1);
@@ -48,20 +50,21 @@ char *ft_detect_command(char *line)
     int len;
     char *commandsp;
 
-    i = 0;
+    i = 15;
     ptr = 0;
-    
-    while (g_operations[i].name)
+    while (i >= 0)
     {
         commandsp = ft_strjoin(g_operations[i].name, " ");
         ptr = ft_strstr(line, commandsp);
+        ptr == 0 ? commandsp = ft_strjoin(g_operations[i].name, "\t") : 0;
+        ptr == 0 ? ptr = ft_strstr(line, commandsp) : 0 ;
         if (ptr != 0)
         {
             len = ft_strlen(commandsp);
-            if (ft_strncmp(ptr, commandsp, len) == 0 && *(ptr - 1) != ':')
+            if (ft_strncmp(ptr, commandsp, len) == 0 && *(ptr - 1) != ':'  && *(ptr - 1) != '_')
                 return(ptr);
         }
-        i++;
+        i--;
         free(commandsp);
     }
     return(0);
@@ -115,7 +118,7 @@ int main (int argc, char **argv)
             || ft_detect_label(main_struct->line) != 0)
             ft_cmd(&main_struct);
         else
-            exit(ft_printf("ERROR! bad line\n"));
+            exit(ft_printf("ERROR! not valid line: |%s|\n", main_struct->line));
         free(main_struct->line);
     }
     ft_set_value(&main_struct);

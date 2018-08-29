@@ -24,13 +24,18 @@ int ft_set_codage(t_command *start)
 {
 	t_arg	*arg;
 	int		codage;
+	int count;
 
+	count = 3;
 	arg = (start)->inst;
 	codage = 0;
-	while (arg)
+	while (count--)
 	{
-		codage = codage + arg->binary;
-		arg = arg->next;
+		if (arg)
+		{
+			codage = codage + arg->binary;
+			arg = arg->next;
+		}
 		codage <<= 2;
 	}
 	return (codage);
@@ -56,7 +61,7 @@ static int	ft_findlabel(t_champ *a, char *name, int nbr)
 		start = start->next;
 	}
     if (value == -1)
-        exit(ft_printf("ERROR! label not exist\n"));
+        exit(ft_printf("ERROR! label not exist: |%s|\n", name));
 	if (nbr > value)
 		value = -1 * (nbr - value);
 	else
