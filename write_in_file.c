@@ -116,6 +116,7 @@ static void		ft_write_cmd(t_champ *main_struct)
 void ft_write_in_file(char *argv, t_champ	*main_struct)
 {
     char *file_name;
+
     int argv_len = ft_strlen(argv);
 	if (!main_struct->name || !main_struct->comment)
 		exit(ft_printf("ERROR! file must contain .name and .comment\n"));
@@ -129,6 +130,7 @@ void ft_write_in_file(char *argv, t_champ	*main_struct)
 	ft_write_comment(main_struct);
 	ft_write_cmd(main_struct);
 	ft_printf("Writing output program to %s\n", file_name);
+	free(file_name);
 	close(main_struct->fd);
 
     

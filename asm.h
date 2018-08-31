@@ -57,7 +57,7 @@ char *ft_detect_command(char *line);
 int ft_detect_command_i(char *line);
 int ft_emptyline(char *line);
 void ft_cmd(t_champ	**main_struct);
-char *ft_parse_arg(char *line, t_command **cmd_s);
+void ft_parse_arg(char *line, t_command **cmd_s);
 void	arg_in_end(t_arg **a, t_arg *b);
 void		ft_parse_ind(char *line, int command, int i, t_command **cmd_s);
 void		ft_parse_dir(char *line, int command, int i, t_command **cmd_s);

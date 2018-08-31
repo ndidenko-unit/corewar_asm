@@ -124,7 +124,50 @@ void ft_count_args_commas(t_command **cmd_s, int command, char *line)
 		exit(ft_printf("ERROR! check commas!\n"));
 }
 
-char *ft_parse_arg(char *line, t_command **cmd_s)
+void	del_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+	{
+		ft_strdel(&array[i]);
+		i++;
+	}
+	free(array);
+	array = NULL;
+}
+
+char *ft_trim_comment(char *line)
+{
+	char *first;
+	char *second;
+
+	first = ft_strdup_d(line, '#');
+	second = ft_strdup_d(first, ';');
+	free(first);
+	return(second);
+}
+
+char **ft_trim_args(char *lined, int cmdlen)
+{
+	char **args;
+	int i;
+	char *fortrim;
+
+	i = 0;
+	args = ft_strsplit(ft_detect_command(lined) + cmdlen, ',');
+	while (args[i])
+	{
+		fortrim = ft_strtrim(args[i]);
+		free(args[i]);
+		args[i] = fortrim;
+		i++;
+	}
+	return(args);
+}
+
+void ft_parse_arg(char *line, t_command **cmd_s)
 {
     char *lined;
     char **args;
@@ -134,15 +177,16 @@ char *ft_parse_arg(char *line, t_command **cmd_s)
 
     i = -1;
     cmdlen = 1 + ft_strlen(g_operations[ft_detect_command_i(line)].name); // 1 для пробела или таба
-    lined = ft_strdup_d(line, '#');
-	if (ft_strchr(lined, ';'))
-		lined = ft_strdup_d(line, ';');
-    args = ft_strsplit(ft_detect_command(lined) + cmdlen, ',');
+    // lined = ft_strdup_d(line, '#');
+	// if (ft_strchr(lined, ';'))
+	// 	lined = ft_strdup_d(line, ';');
+    // args = ft_strsplit(ft_detect_command(lined) + cmdlen, ',');
+	lined = ft_trim_comment(line);
+	args = ft_trim_args(lined, cmdlen);
     while(args[++i])
     {
-        args[i] = ft_strtrim(args[i]);
+        // args[i] = ft_strtrim(args[i]);// лик
         valid = ft_valid_arg(args[i], ft_detect_command_i(line), i);
-        // printf("valid =%d\n", valid);
         if (valid == T_REG)
 			ft_parse_reg(args[i], ft_detect_command_i(line), i, cmd_s);
 		else if (valid == T_IND)
@@ -151,8 +195,6 @@ char *ft_parse_arg(char *line, t_command **cmd_s)
 			ft_parse_dir(args[i], ft_detect_command_i(line), i, cmd_s);
     }
 	ft_count_args_commas(cmd_s, ft_detect_command_i(line), lined);
-    // printf("(*cmd_s)->inst->value =%d\n", (*cmd_s)->inst->value);
-	// printf("(*cmd_s)->inst->name_label =%s\n", (*cmd_s)->inst->name_label);
-
-    return(lined); // вернет единицу
+	del_array(args);
+    free(lined);
 }

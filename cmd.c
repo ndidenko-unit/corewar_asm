@@ -157,7 +157,10 @@ void	cmd_in_end(t_command **a, t_command *b)
 void ft_valid_next_line(t_champ	**main_struct)
 {
     while(ft_emptyline((*main_struct)->line))
+    {
+        free((*main_struct)->line);
         get_next_line((*main_struct)->fd, &(*main_struct)->line);
+    }
     if (ft_detect_command((*main_struct)->line) == 0 
         && ft_detect_label((*main_struct)->line) == 0)
          exit(ft_printf("ERROR! command not found after label\n"));
@@ -179,8 +182,9 @@ void ft_cmd(t_champ	**main_struct)
     while (ft_detect_label((*main_struct)->line))
     {
         ft_parse_label((*main_struct)->line, &label_s);
-        if (ft_detect_command((*main_struct)->line) != 0)
+        if (ft_detect_command_i((*main_struct)->line) >= 0)
             break;
+        // free((*main_struct)->line); - разберись почему flutershy не так пишется
         if (!get_next_line((*main_struct)->fd, &(*main_struct)->line))
             break;
         ft_valid_next_line(main_struct);
@@ -191,7 +195,7 @@ void ft_cmd(t_champ	**main_struct)
     // if (label_s->name)
         cmd_s->labels = label_s;
     if (ft_detect_command((*main_struct)->line) != 0)
-        arg_s = ft_parse_arg((*main_struct)->line, &cmd_s);
+        ft_parse_arg((*main_struct)->line, &cmd_s);
     cmd_in_end(&(*main_struct)->cmds, cmd_s);
 
     // while (label_s)

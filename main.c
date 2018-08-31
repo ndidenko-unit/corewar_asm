@@ -32,7 +32,10 @@ int main (int argc, char **argv)
     while (get_next_line(main_struct->fd, &main_struct->line))
     {
         if (ft_strlen(main_struct->line) < 1 || ft_emptyline(main_struct->line))
+        {
+            free(main_struct->line);
             continue;
+        }
         else if (ft_strstr_d(main_struct->line, ".name") && main_struct->name == 0)
             ft_name(&main_struct);
         else if (ft_strstr_d(main_struct->line, ".comment") && main_struct->comment == 0)
