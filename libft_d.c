@@ -6,15 +6,15 @@ char	*ft_strstr_d(char *str, char *to_find)
 	size_t	j;
 
 	i = 0;
-	if (to_find[0] == '\0' || to_find[0] == '#')
+	if (to_find[0] == '\0' || to_find[0] == '#' || to_find[0] == ';')
 		return (str);
-	while (str[i] != '\0' && str[i] != '#')
+	while (str[i] != '\0' && str[i] != '#' && str[i] != ';')
 	{
 		j = 0;
 		while (str[i + j] == to_find[j])
 		{
 			j++;
-			if (to_find[j] == '\0' || to_find[j] == '#')
+			if (to_find[j] == '\0' || to_find[j] == '#' || to_find[j] == ';')
 				return (str + i);
 		}
 		i++;
@@ -22,14 +22,14 @@ char	*ft_strstr_d(char *str, char *to_find)
 	return (0);
 }
 
-void	ft_putstr_d(char const *s)
-{
-	if (s != NULL)
-	{
-		while (*s && *s != '#')
-			ft_putchar(*s++);
-	}
-}
+// void	ft_putstr_d(char const *s)
+// {
+// 	if (s != NULL)
+// 	{
+// 		while (*s && *s != '#')
+// 			ft_putchar(*s++);
+// 	}
+// }
 
 char	*ft_strjoin_n(char *line, char *line2, int flag)
 {

@@ -111,10 +111,10 @@ t_command *ft_parse_cmd(char *line)
 {
     t_command *cmd_tmp;
     char *ptr;
-    int i;
+    // int i;
     int command;
 
-    i = 0;
+    // i = 0;
     command = ft_detect_command_i(line);
     ft_valid_command_line(line, command);
     cmd_tmp = (t_command*)malloc(sizeof(t_command));
@@ -123,9 +123,9 @@ t_command *ft_parse_cmd(char *line)
     if (command != -1)
     {
         ptr = ft_detect_command(line);
-        while (*ptr++ != ' ' && *ptr++ != '\t')
-            i++;
-        cmd_tmp->name = ft_strsub(ft_detect_command(line), 0, i);
+        // while (*ptr++ != ' ' && *ptr++ != '\t')
+        //     i++;
+        cmd_tmp->name = ft_strsub(ft_detect_command(line), 0, ft_strlen(g_operations[command].name));
         cmd_tmp->inst = 0;
         cmd_tmp->codage = g_operations[command].codage;
         cmd_tmp->opcode = g_operations[command].opcode;

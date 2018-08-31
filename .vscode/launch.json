@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceRoot}/asm",
-            "args": ["champs/examples/zork.s"],
+            "args": ["champs/examples/bee_gees.s"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

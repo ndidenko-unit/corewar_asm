@@ -1,6 +1,6 @@
 NAME = asm
 
-FILE_C =  main.c libft_d.c name.c comment.c g_operations.c cmd.c args.c args2.c args3.c set_value.c write_in_file.c
+FILE_C =  main.c libft_d.c name.c comment.c g_operations.c cmd.c args.c args2.c args3.c set_value.c write_in_file.c detect.c
 
 FILE_O = $(FILE_C:.c=.o)
 
