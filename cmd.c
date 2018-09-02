@@ -129,6 +129,8 @@ t_command *ft_parse_cmd(char *line)
         cmd_tmp->inst = 0;
         cmd_tmp->codage = g_operations[command].codage;
         cmd_tmp->opcode = g_operations[command].opcode;
+        if (ft_strlen(cmd_tmp->name) < 1)
+            cmd_tmp->name = ft_strdup("-1");
     }
     else
         cmd_tmp->name = ft_strdup("-1");
@@ -184,14 +186,14 @@ void ft_cmd(t_champ	**main_struct)
         ft_parse_label((*main_struct)->line, &label_s);
         if (ft_detect_command_i((*main_struct)->line) >= 0)
             break;
-        // free((*main_struct)->line); - разберись почему flutershy не так пишется
+        free((*main_struct)->line);// - разберись почему flutershy не так пишется
         if (!get_next_line((*main_struct)->fd, &(*main_struct)->line))
             break;
         ft_valid_next_line(main_struct);
     }
-    // if (ft_detect_command((*main_struct)->line) != 0)
-    // {
-    cmd_s = ft_parse_cmd((*main_struct)->line);
+//     if (ft_detect_command((*main_struct)->line) != 0)
+// {
+        cmd_s = ft_parse_cmd((*main_struct)->line);
     // if (label_s->name)
         cmd_s->labels = label_s;
     if (ft_detect_command((*main_struct)->line) != 0)

@@ -78,6 +78,6 @@ int main (int argc, char **argv)
     //     main_struct->cmds = main_struct->cmds->next;
     //     printf("\n---------------\n");
     // }
-    // system ("leaks -quiet asm");
+    system ("leaks -quiet asm");
     return (0);
 }
