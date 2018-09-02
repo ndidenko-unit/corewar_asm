@@ -70,7 +70,7 @@ void ft_comment(t_champ	**main_struct)
     count[1] = 0;
     count[2] = 0;
     ft_valid_1line((*main_struct)->line);
-    while ((*main_struct)->line[i] && (*main_struct)->line[i] != '#')
+    while ((*main_struct)->line[i])
     {
         if ((*main_struct)->line[i] == '"')
             count[0]++;

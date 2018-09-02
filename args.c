@@ -4,27 +4,27 @@ static void	available_args(int command, int index, int *aval_args)
 {
 	if (g_operations[command].args[index] == 3)
 	{
-		aval_args[0] = T_DIR;
-		aval_args[1] = T_REG;
+		aval_args[0] = 2;
+		aval_args[1] = 1;
 	}
     else if (g_operations[command].args[index] == 5)
 	{
-		aval_args[0] = T_REG;
-		aval_args[1] = T_IND;
+		aval_args[0] = 1;
+		aval_args[1] = 4;
 	}
 	else if (g_operations[command].args[index] == 6)
 	{
-		aval_args[0] = T_DIR;
-		aval_args[1] = T_IND;
+		aval_args[0] = 2;
+		aval_args[1] = 4;
 	}
     if (g_operations[command].args[index] == 7)
         aval_args[0] = -1;
-    if (g_operations[command].args[index] == T_DIR)
-        aval_args[0] = T_DIR;
-    if (g_operations[command].args[index] == T_REG)
-        aval_args[0] = T_REG;
-    if (g_operations[command].args[index] == T_IND)
-        aval_args[0] = T_IND;
+    if (g_operations[command].args[index] == 2)
+        aval_args[0] = 2;
+    if (g_operations[command].args[index] == 1)
+        aval_args[0] = 1;
+    if (g_operations[command].args[index] == 4)
+        aval_args[0] = 4;
 	aval_args[2] = 0;
 }
 
@@ -88,7 +88,7 @@ void ft_parse_reg(char *line, int command, int index, t_command **cmd_s)
         exit(ft_printf("ERROR! bad characters near 'r'\n"));
 	arg = (t_arg*)malloc(sizeof(t_arg));
 	arg->size = 1;
-	arg->value = ft_atoi(line + 1);
+	arg->value = atoi_arg(line + 1);
     if (arg->value > 16)
         exit(ft_printf("ERROR! big value for 'r'\n"));
 	arg->binary = 1;

@@ -15,20 +15,35 @@ int ft_emptyline(char *line)
     return(1);
 }
 
+void ft_init(t_champ	**main_struct, int argc, char **argv)
+{
+    if (argc == 1)
+        exit(ft_printf("Please add argument\n"));
+    (*main_struct) = (t_champ*)malloc(sizeof(t_champ));
+    (*main_struct)->name = 0;
+    (*main_struct)->comment = 0;
+    (*main_struct)->line = 0;
+    (*main_struct)->cmds = 0;
+    (*main_struct)->fd = open(argv[1], O_RDONLY);
+    if ((*main_struct)->fd == -1)
+        exit(ft_printf("ERROR! fd is -1\n"));
+}
+
 int main (int argc, char **argv)
 {
     t_champ	*main_struct;
 
-    if (argc == 1)
-        exit(ft_printf("Please add argument\n"));
-    main_struct = (t_champ*)malloc(sizeof(t_champ));
-    main_struct->name = 0;
-    main_struct->comment = 0;
-    main_struct->line = 0;
-    main_struct->cmds = 0;
-    main_struct->fd = open(argv[1], O_RDONLY);
-    if (main_struct->fd == -1)
-        exit(ft_printf("ERROR! fd is -1\n"));
+    // if (argc == 1)
+    //     exit(ft_printf("Please add argument\n"));
+    // main_struct = (t_champ*)malloc(sizeof(t_champ));
+    // main_struct->name = 0;
+    // main_struct->comment = 0;
+    // main_struct->line = 0;
+    // main_struct->cmds = 0;
+    // main_struct->fd = open(argv[1], O_RDONLY);
+    // if (main_struct->fd == -1)
+    //     exit(ft_printf("ERROR! fd is -1\n"));
+    ft_init(&main_struct, argc, argv);
     while (get_next_line(main_struct->fd, &main_struct->line))
     {
         if (ft_strlen(main_struct->line) < 1 || ft_emptyline(main_struct->line))
@@ -78,6 +93,6 @@ int main (int argc, char **argv)
     //     main_struct->cmds = main_struct->cmds->next;
     //     printf("\n---------------\n");
     // }
-    system ("leaks -quiet asm");
+    // system ("leaks -quiet asm");
     return (0);
 }

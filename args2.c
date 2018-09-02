@@ -15,12 +15,15 @@ unsigned int	atoi_arg(const char *str)
     if (*str == '+' || *str == '-')
         str++;
 	if (*str < 48 && *str > 57)
-		return (0);
+		exit(ft_printf("ERROR! not valid value!\n"));
 	while (*str && ft_isdigit(*str))
 	{
 		res = res * 10 + (*str - 48);
 		str++;
 	}
+	while(*str++)
+		if (*str != ' ' || *str != '\t')
+			exit(ft_printf("ERROR! not valid value!\n"));
 	return (res * n);
 }
 
